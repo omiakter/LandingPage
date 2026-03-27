@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pedal Power Bike — ANU ENGN8170</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --clr-bg: #FAFAF7;
+    --clr-dark: #1A1A18;
+    --clr-accent: #C45D1A;
+    --clr-accent-light: #E8864A;
+    --clr-warm: #F5EDE4;
+    --clr-warm-deep: #EAD9C8;
+    --clr-green: #3A6B4C;
+    --clr-green-light: #E6F0E9;
+    --clr-muted: #6B6B64;
+    --clr-border: #D9D9D0;
+    --clr-white: #FFFFFF;
+    --font-display: 'Instrument Serif', Georgia, serif;
+    --font-body: 'DM Sans', sans-serif;
+    --max-w: 1200px;
+    --section-pad: clamp(60px, 10vw, 120px);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--clr-bg);
+    color: var(--clr-dark);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: var(--clr-accent); color: white; }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(250,250,247,.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--clr-border);
+    transition: box-shadow .3s;
+  }
+  nav.scrolled { box-shadow: 0 1px 30px rgba(0,0,0,.06); }
+  .nav-inner {
+    max-width: var(--max-w); margin: 0 auto;
+    padding: 0 clamp(20px, 4vw, 40px);
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none; color: var(--clr-dark);
+  }
+  .nav-logo-icon {
+    width: 34px; height: 34px; border-radius: 8px;
+    background: var(--clr-accent);
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 700; font-size: 14px;
+  }
+  .nav-logo-text {
+    font-family: var(--font-display); font-size: 20px; letter-spacing: -.02em;
+  }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    text-decoration: none; color: var(--clr-muted);
+    font-size: 14px; font-weight: 500; letter-spacing: .01em;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--clr-accent); }
+  .nav-cta {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 20px; border-radius: 100px;
+    background: var(--clr-dark); color: white;
+    font-size: 13px; font-weight: 600; text-decoration: none;
+    transition: background .2s, transform .15s;
+  }
+  .nav-cta:hover { background: var(--clr-accent); transform: translateY(-1px); }
+  .nav-cta svg { width: 14px; height: 14px; }
+
+  .hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
+  .hamburger span { display: block; width: 22px; height: 2px; background: var(--clr-dark); margin: 5px 0; border-radius: 2px; transition: .3s; }
+
+  /* ─── HERO ─── */
+  .hero {
+    padding: calc(64px + var(--section-pad)) clamp(20px, 4vw, 40px) var(--section-pad);
+    max-width: var(--max-w); margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+    min-height: 90vh;
+  }
+  .hero-content { animation: fadeUp .8s ease both; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 16px; border-radius: 100px;
+    background: var(--clr-green-light); color: var(--clr-green);
+    font-size: 12px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .08em; margin-bottom: 28px;
+  }
+  .hero-badge::before {
+    content: ''; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--clr-green); animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .3; } }
+
+  .hero h1 {
+    font-family: var(--font-display); font-weight: 400;
+    font-size: clamp(40px, 5.5vw, 68px); line-height: 1.05;
+    letter-spacing: -.03em; margin-bottom: 24px;
+  }
+  .hero h1 em {
+    font-style: italic; color: var(--clr-accent);
+    background: linear-gradient(135deg, var(--clr-accent), var(--clr-accent-light));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-desc {
+    font-size: 17px; color: var(--clr-muted); line-height: 1.7;
+    max-width: 480px; margin-bottom: 36px;
+  }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 14px 28px; border-radius: 100px;
+    font-size: 14px; font-weight: 600; text-decoration: none;
+    transition: all .25s; cursor: pointer; border: none;
+  }
+  .btn-primary { background: var(--clr-accent); color: white; }
+  .btn-primary:hover { background: #A84D14; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(196,93,26,.25); }
+  .btn-secondary { background: transparent; color: var(--clr-dark); border: 1.5px solid var(--clr-border); }
+  .btn-secondary:hover { border-color: var(--clr-accent); color: var(--clr-accent); }
+  .btn svg { width: 16px; height: 16px; }
+
+  .hero-visual {
+    position: relative;
+    animation: fadeUp .8s .2s ease both;
+  }
+  .hero-card {
+    background: var(--clr-warm);
+    border-radius: 24px; padding: 40px;
+    position: relative; overflow: hidden;
+    min-height: 460px; display: flex; flex-direction: column; justify-content: flex-end;
+  }
+  .hero-card::before {
+    content: ''; position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 30% 20%, rgba(196,93,26,.12) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(58,107,76,.08) 0%, transparent 50%);
+  }
+  .hero-icon-grid {
+    position: absolute; top: 40px; left: 40px; right: 40px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  }
+  .hero-stat {
+    background: rgba(255,255,255,.7); backdrop-filter: blur(10px);
+    border-radius: 16px; padding: 20px; text-align: center;
+    border: 1px solid rgba(255,255,255,.8);
+  }
+  .hero-stat-icon { font-size: 28px; margin-bottom: 8px; }
+  .hero-stat-val { font-family: var(--font-display); font-size: 22px; color: var(--clr-dark); }
+  .hero-stat-label { font-size: 11px; color: var(--clr-muted); font-weight: 500; text-transform: uppercase; letter-spacing: .06em; margin-top: 2px; }
+  .hero-card-label {
+    position: relative; z-index: 1;
+    font-size: 13px; color: var(--clr-muted); font-weight: 500;
+    text-transform: uppercase; letter-spacing: .08em;
+  }
+
+  /* ─── SECTION COMMON ─── */
+  section { padding: var(--section-pad) clamp(20px, 4vw, 40px); }
+  .section-inner { max-width: var(--max-w); margin: 0 auto; }
+  .section-label {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 600; color: var(--clr-accent);
+    text-transform: uppercase; letter-spacing: .1em; margin-bottom: 16px;
+  }
+  .section-label::before {
+    content: ''; width: 20px; height: 1.5px; background: var(--clr-accent);
+  }
+  .section-title {
+    font-family: var(--font-display); font-weight: 400;
+    font-size: clamp(30px, 4vw, 48px); line-height: 1.1;
+    letter-spacing: -.02em; margin-bottom: 20px;
+  }
+  .section-desc {
+    font-size: 16px; color: var(--clr-muted); line-height: 1.7;
+    max-width: 580px; margin-bottom: 48px;
+  }
+
+  /* ─── ABOUT ─── */
+  #about { background: var(--clr-white); }
+  .about-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  }
+  .about-card {
+    padding: 36px; border-radius: 20px; border: 1px solid var(--clr-border);
+    background: var(--clr-bg);
+    transition: transform .3s, box-shadow .3s;
+  }
+  .about-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,.06); }
+  .about-card-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; margin-bottom: 20px;
+  }
+  .about-card-icon.gen { background: #FFF0E6; }
+  .about-card-icon.store { background: var(--clr-green-light); }
+  .about-card-icon.charge { background: #E8F0FE; }
+  .about-card h3 {
+    font-family: var(--font-display); font-size: 22px; font-weight: 400;
+    margin-bottom: 10px; letter-spacing: -.01em;
+  }
+  .about-card p { font-size: 14px; color: var(--clr-muted); line-height: 1.65; }
+
+  /* ─── SCOPE ─── */
+  .scope-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+  .scope-items { display: flex; flex-direction: column; gap: 16px; }
+  .scope-item {
+    display: flex; gap: 16px; padding: 20px 24px;
+    border-radius: 14px; border: 1px solid var(--clr-border);
+    background: var(--clr-white);
+    transition: border-color .2s, transform .2s;
+  }
+  .scope-item:hover { border-color: var(--clr-accent); transform: translateX(4px); }
+  .scope-num {
+    font-family: var(--font-display); font-size: 28px;
+    color: var(--clr-accent); opacity: .4; flex-shrink: 0; width: 32px;
+  }
+  .scope-item h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .scope-item p { font-size: 13px; color: var(--clr-muted); line-height: 1.55; }
+
+  /* ─── TEAM ─── */
+  #team { background: var(--clr-dark); color: var(--clr-bg); }
+  #team .section-label { color: var(--clr-accent-light); }
+  #team .section-label::before { background: var(--clr-accent-light); }
+  #team .section-desc { color: rgba(250,250,247,.5); }
+  .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .team-card {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 20px; padding: 32px 28px; text-align: center;
+    transition: background .3s, border-color .3s, transform .3s;
+  }
+  .team-card:hover {
+    background: rgba(255,255,255,.08);
+    border-color: rgba(196,93,26,.4);
+    transform: translateY(-4px);
+  }
+  .team-avatar {
+    width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 20px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-size: 28px; color: white;
+  }
+  .team-avatar.omi { background: linear-gradient(135deg, #C45D1A, #E8864A); }
+  .team-avatar.xiao { background: linear-gradient(135deg, #3A6B4C, #5FA97A); }
+  .team-avatar.shiwei { background: linear-gradient(135deg, #4A5D8A, #7B8FBF); }
+  .team-avatar.michael { background: linear-gradient(135deg, #8B5E3C, #BF8B60); }
+  .team-name {
+    font-family: var(--font-display); font-size: 20px; margin-bottom: 4px;
+  }
+  .team-role {
+    font-size: 12px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: .08em; color: var(--clr-accent-light); margin-bottom: 14px;
+  }
+  .team-uid {
+    font-size: 11px; color: rgba(250,250,247,.3); font-weight: 500;
+    letter-spacing: .04em; margin-bottom: 14px;
+  }
+  .team-desc { font-size: 13px; color: rgba(250,250,247,.5); line-height: 1.6; }
+
+  /* ─── CONOPS ─── */
+  #conops { background: var(--clr-warm); }
+  .conops-card {
+    background: var(--clr-white); border-radius: 24px;
+    padding: clamp(32px,5vw,60px); display: grid;
+    grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;
+    border: 1px solid var(--clr-border);
+  }
+  .conops-text h3 {
+    font-family: var(--font-display); font-size: clamp(26px,3vw,36px);
+    margin-bottom: 16px; letter-spacing: -.02em;
+  }
+  .conops-text p { font-size: 15px; color: var(--clr-muted); line-height: 1.7; margin-bottom: 24px; }
+  .conops-links { display: flex; flex-direction: column; gap: 12px; }
+  .conops-link {
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px 20px; border-radius: 14px;
+    background: var(--clr-bg); border: 1px solid var(--clr-border);
+    text-decoration: none; color: var(--clr-dark);
+    transition: border-color .2s, transform .2s;
+  }
+  .conops-link:hover { border-color: var(--clr-accent); transform: translateX(4px); }
+  .conops-link-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .conops-link-icon.doc { background: #FFF0E6; }
+  .conops-link-icon.repo { background: var(--clr-green-light); }
+  .conops-link-label { font-weight: 600; font-size: 14px; }
+  .conops-link-sub { font-size: 12px; color: var(--clr-muted); }
+  .conops-link svg { margin-left: auto; color: var(--clr-muted); width: 18px; height: 18px; }
+
+  .conops-visual {
+    display: flex; flex-direction: column; gap: 16px;
+  }
+  .lifecycle-step {
+    display: flex; align-items: center; gap: 16px;
+    padding: 14px 20px; border-radius: 12px;
+    background: var(--clr-bg); border-left: 3px solid var(--clr-border);
+    transition: border-color .3s, transform .2s;
+  }
+  .lifecycle-step:hover { border-left-color: var(--clr-accent); transform: translateX(4px); }
+  .lifecycle-step.active { border-left-color: var(--clr-accent); background: #FFF8F3; }
+  .lifecycle-num {
+    font-family: var(--font-display); font-size: 20px; color: var(--clr-accent);
+    opacity: .5; width: 24px; flex-shrink: 0;
+  }
+  .lifecycle-step.active .lifecycle-num { opacity: 1; }
+  .lifecycle-label { font-size: 14px; font-weight: 500; }
+  .lifecycle-tag {
+    margin-left: auto; font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .08em;
+    padding: 4px 10px; border-radius: 100px;
+    background: var(--clr-accent); color: white;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    padding: 48px clamp(20px, 4vw, 40px);
+    border-top: 1px solid var(--clr-border);
+  }
+  .footer-inner {
+    max-width: var(--max-w); margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 16px;
+  }
+  .footer-brand { display: flex; align-items: center; gap: 10px; }
+  .footer-brand-icon {
+    width: 28px; height: 28px; border-radius: 6px;
+    background: var(--clr-accent); display: flex; align-items: center;
+    justify-content: center; color: white; font-weight: 700; font-size: 11px;
+  }
+  .footer-brand-text { font-family: var(--font-display); font-size: 16px; }
+  .footer-copy { font-size: 13px; color: var(--clr-muted); }
+  .footer-anu { font-size: 12px; color: var(--clr-muted); text-align: right; }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity .6s ease, transform .6s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; min-height: auto; padding-top: calc(64px + 48px); }
+    .hero-visual { order: -1; }
+    .hero-card { min-height: 320px; }
+    .about-grid { grid-template-columns: 1fr; }
+    .scope-grid { grid-template-columns: 1fr; }
+    .team-grid { grid-template-columns: repeat(2, 1fr); }
+    .conops-card { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .hamburger { display: block; }
+  }
+  @media (max-width: 560px) {
+    .team-grid { grid-template-columns: 1fr; }
+    .hero-icon-grid { grid-template-columns: repeat(2, 1fr); }
+    .hero-stat:nth-child(3) { grid-column: span 2; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-icon">PP</div>
+      <span class="nav-logo-text">Pedal Power</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#scope">Scope</a></li>
+      <li><a href="#team">Team</a></li>
+      <li><a href="#conops">Documents</a></li>
+    </ul>
+    <a href="https://anu365-my.sharepoint.com/:f:/g/personal/u7979735_anu_edu_au/IgAinVIhP7APT7JQbffNBE9XAcB24nLKeO2gsEw8UM3YeFY?e=rSo7qC" class="nav-cta" target="_blank">
+      Repository
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+    </a>
+    <button class="hamburger" onclick="document.querySelector('.nav-links').style.display=document.querySelector('.nav-links').style.display==='flex'?'none':'flex'">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">ANU ENGN8170 — Active Project</div>
+    <h1>Turning <em>pedal power</em> into portable energy</h1>
+    <p class="hero-desc">We're engineering a pedal-powered system that generates electricity, stores it in a battery, and charges devices via USB — built for ANU outreach and sustainability events.</p>
+    <div class="hero-actions">
+      <a href="#conops" class="btn btn-primary">
+        View ConOps
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#about" class="btn btn-secondary">Learn More</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-card">
+      <div class="hero-icon-grid">
+        <div class="hero-stat">
+          <div class="hero-stat-icon">⚡</div>
+          <div class="hero-stat-val">50–100W</div>
+          <div class="hero-stat-label">Target Output</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-icon">🔋</div>
+          <div class="hero-stat-val">5V USB</div>
+          <div class="hero-stat-label">Charging Port</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-icon">💰</div>
+          <div class="hero-stat-val">$2,500</div>
+          <div class="hero-stat-label">Project Budget</div>
+        </div>
+      </div>
+      <div class="hero-card-label">Pedal Power Bike — System Overview</div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="section-label">What We're Building</div>
+    <h2 class="section-title reveal">A bike that blends smoothies<br>and charges your phone</h2>
+    <p class="section-desc reveal">Upgrading an existing pedal-powered prototype with electricity generation, energy storage, and USB charging — all from human power.</p>
+    <div class="about-grid">
+      <div class="about-card reveal">
+        <div class="about-card-icon gen">⚡</div>
+        <h3>Energy Generation</h3>
+        <p>A DC generator attached to the front wheel drivetrain converts pedalling motion into usable electrical energy, targeting 50–100W of practical output at typical cruising speed.</p>
+      </div>
+      <div class="about-card reveal">
+        <div class="about-card-icon store">🔋</div>
+        <h3>Energy Storage</h3>
+        <p>An off-the-shelf charge controller safely routes generated electricity to a battery for storage while pedalling, with a fuse and manual on/off switch for basic safety.</p>
+      </div>
+      <div class="about-card reveal">
+        <div class="about-card-icon charge">🔌</div>
+        <h3>USB Charging</h3>
+        <p>A 5V USB port connected to the battery lets users charge phones and small devices from stored energy — making the bike a self-contained portable power station.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCOPE -->
+<section id="scope">
+  <div class="section-inner">
+    <div class="scope-grid">
+      <div>
+        <div class="section-label reveal">Project Scope</div>
+        <h2 class="section-title reveal">What we're delivering</h2>
+        <p class="section-desc reveal">The project follows the ANU Systems Engineering Process, focusing on practical, off-the-shelf integration to produce a reliable demonstration system within budget and timeline.</p>
+        <div style="padding:20px 24px; border-radius:14px; background:var(--clr-warm); margin-top:24px;" class="reveal">
+          <p style="font-size:13px; font-weight:600; color:var(--clr-accent); text-transform:uppercase; letter-spacing:.06em; margin-bottom:8px;">Out of Scope</p>
+          <p style="font-size:13px; color:var(--clr-muted); line-height:1.6;">Battery-powered blender operation · Custom-designed electrical components · Software or digital interfaces · Permanent installation</p>
+        </div>
+      </div>
+      <div class="scope-items">
+        <div class="scope-item reveal">
+          <div class="scope-num">01</div>
+          <div>
+            <h4>Electrical Generation System</h4>
+            <p>DC generator on the front wheel, measuring output across the pedalling cadence and torque range.</p>
+          </div>
+        </div>
+        <div class="scope-item reveal">
+          <div class="scope-num">02</div>
+          <div>
+            <h4>Energy Storage System</h4>
+            <p>Battery with charge controller, fuse, and manual switch for safe energy storage during pedalling.</p>
+          </div>
+        </div>
+        <div class="scope-item reveal">
+          <div class="scope-num">03</div>
+          <div>
+            <h4>USB Charging Output</h4>
+            <p>5V USB port with labelled output capability and operating limitations for device charging.</p>
+          </div>
+        </div>
+        <div class="scope-item reveal">
+          <div class="scope-num">04</div>
+          <div>
+            <h4>System Testing</h4>
+            <p>Verification of safe operation, usable generator output, and successful USB device charging.</p>
+          </div>
+        </div>
+        <div class="scope-item reveal">
+          <div class="scope-num">05</div>
+          <div>
+            <h4>Handover Documentation</h4>
+            <p>Wiring diagrams, bill of materials, risk summary, test results, and operating guidelines.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="section-inner">
+    <div class="section-label reveal">Our Team</div>
+    <h2 class="section-title reveal" style="color:var(--clr-bg);">The people behind<br>the pedals</h2>
+    <p class="section-desc reveal">Four engineers combining mechanical, electrical, and systems expertise to deliver a working demonstration system.</p>
+    <div class="team-grid">
+      <div class="team-card reveal">
+        <div class="team-avatar omi">OA</div>
+        <div class="team-name">Omi Akter</div>
+        <div class="team-role">Project Manager</div>
+        <div class="team-uid">U7979735</div>
+        <p class="team-desc">Project coordination, deadline tracking, key documentation including the ConOps, meeting minutes, and risk register. Liaises with the client.</p>
+      </div>
+      <div class="team-card reveal">
+        <div class="team-avatar michael">MT</div>
+        <div class="team-name">Michael Taylor</div>
+        <div class="team-role">Systems Engineer</div>
+        <div class="team-uid">U7074406</div>
+        <p class="team-desc">Overall system architecture and functional specifications. Develops and maintains the Process and Instrumentation Diagram (P&ID).</p>
+      </div>
+      <div class="team-card reveal">
+        <div class="team-avatar xiao">XL</div>
+        <div class="team-name">Xiao Liu</div>
+        <div class="team-role">Electrical Engineer</div>
+        <div class="team-uid">U7973249</div>
+        <p class="team-desc">Electrical architecture decisions, component selection, and circuit-level integration from generator to battery and USB output.</p>
+      </div>
+      <div class="team-card reveal">
+        <div class="team-avatar shiwei">SQ</div>
+        <div class="team-name">Shiwei Qin</div>
+        <div class="team-role">Mechanical Engineer</div>
+        <div class="team-uid">U7833193</div>
+        <p class="team-desc">Mechanical component design, drafting, manufacturing, and specifying suitable off-the-shelf mechanical components.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONOPS / DOCUMENTS -->
+<section id="conops">
+  <div class="section-inner">
+    <div class="conops-card reveal">
+      <div class="conops-text">
+        <div class="section-label">Documents</div>
+        <h3>Access our project documentation</h3>
+        <p>The Concept of Operations defines how the pedal-powered system will function in practice. Our repository contains all project deliverables, meeting minutes, and management plans.</p>
+        <div class="conops-links">
+          <a href="https://anu365-my.sharepoint.com/:w:/g/personal/u7979735_anu_edu_au/IQAwwttg-HQwTqZayimSuA9iAVTBOtFCt52oLvbW7FWq6lo?e=WTm1tw" class="conops-link" target="_blank">
+            <div class="conops-link-icon doc">📄</div>
+            <div>
+              <div class="conops-link-label">Concept of Operations</div>
+              <div class="conops-link-sub">V1.0 — 13 March 2026</div>
+            </div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+          </a>
+          <a href="https://anu365-my.sharepoint.com/:f:/g/personal/u7979735_anu_edu_au/IgAinVIhP7APT7JQbffNBE9XAcB24nLKeO2gsEw8UM3YeFY?e=rSo7qC" class="conops-link" target="_blank">
+            <div class="conops-link-icon repo">📁</div>
+            <div>
+              <div class="conops-link-label">Project Repository</div>
+              <div class="conops-link-sub">All deliverables and management documents</div>
+            </div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="conops-visual">
+        <p style="font-size:12px; font-weight:600; color:var(--clr-accent); text-transform:uppercase; letter-spacing:.08em; margin-bottom:4px;">Engineering Lifecycle</p>
+        <p style="font-size:13px; color:var(--clr-muted); margin-bottom:16px;">ANU Systems Engineering Process</p>
+        <div class="lifecycle-step active">
+          <div class="lifecycle-num">1</div>
+          <div class="lifecycle-label">Requirements Analysis</div>
+          <div class="lifecycle-tag">Current</div>
+        </div>
+        <div class="lifecycle-step">
+          <div class="lifecycle-num">2</div>
+          <div class="lifecycle-label">Conceptual Design</div>
+        </div>
+        <div class="lifecycle-step">
+          <div class="lifecycle-num">3</div>
+          <div class="lifecycle-label">Preliminary Design</div>
+        </div>
+        <div class="lifecycle-step">
+          <div class="lifecycle-num">4</div>
+          <div class="lifecycle-label">Detailed Design</div>
+        </div>
+        <div class="lifecycle-step">
+          <div class="lifecycle-num">5</div>
+          <div class="lifecycle-label">Build &amp; Operations</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-brand-icon">PP</div>
+      <span class="footer-brand-text">Pedal Power Bike</span>
+    </div>
+    <div class="footer-copy">ENGN8170 Group Project — Semester 1, 2026</div>
+    <div class="footer-anu">The Australian National University<br>
+      <span style="font-size:11px;">TEQSA Provider ID: PRV12002 | CRICOS: 00120C</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll effect
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
+  });
+
+  // Reveal on scroll
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }});
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
