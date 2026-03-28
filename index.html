@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -307,7 +308,7 @@
   .conops-link svg { margin-left: auto; color: var(--clr-muted); width: 18px; height: 18px; }
 
   .conops-visual {
-    display: flex; flex-direction: column; gap: 16px;
+    display: flex; flex-direction: column; gap: 10px;
   }
   .lifecycle-step {
     display: flex; align-items: center; gap: 16px;
@@ -317,6 +318,7 @@
   }
   .lifecycle-step:hover { border-left-color: var(--clr-accent); transform: translateX(4px); }
   .lifecycle-step.active { border-left-color: var(--clr-accent); background: #FFF8F3; }
+  .lifecycle-step.active .lifecycle-tag { background: var(--clr-accent); color: white; }
   .lifecycle-num {
     font-family: var(--font-display); font-size: 20px; color: var(--clr-accent);
     opacity: .5; width: 24px; flex-shrink: 0;
@@ -328,7 +330,22 @@
     text-transform: uppercase; letter-spacing: .08em;
     padding: 4px 10px; border-radius: 100px;
     background: var(--clr-accent); color: white;
+    flex-shrink: 0;
   }
+  .lifecycle-tag.drafted {
+    background: var(--clr-green); color: white;
+  }
+  .lifecycle-tag.upcoming {
+    background: transparent; color: var(--clr-muted);
+    border: 1.5px solid var(--clr-border);
+  }
+  .lifecycle-content { flex: 1; min-width: 0; }
+  .lifecycle-desc {
+    font-size: 12px; color: var(--clr-muted); line-height: 1.5;
+    margin-top: 4px;
+  }
+  .lifecycle-step.done { border-left-color: var(--clr-green); background: var(--clr-green-light); }
+  .lifecycle-step.done .lifecycle-num { color: var(--clr-green); opacity: .7; }
 
   /* ─── FOOTER ─── */
   footer {
@@ -592,26 +609,45 @@
       <div class="conops-visual">
         <p style="font-size:12px; font-weight:600; color:var(--clr-accent); text-transform:uppercase; letter-spacing:.08em; margin-bottom:4px;">Engineering Lifecycle</p>
         <p style="font-size:13px; color:var(--clr-muted); margin-bottom:16px;">ANU Systems Engineering Process</p>
-        <div class="lifecycle-step active">
+        <div class="lifecycle-step done">
           <div class="lifecycle-num">1</div>
-          <div class="lifecycle-label">Requirements Analysis</div>
-          <div class="lifecycle-tag">Current</div>
+          <div class="lifecycle-content">
+            <div class="lifecycle-label">Requirements Analysis</div>
+            <div class="lifecycle-desc">Stakeholder needs captured and system-level requirements baselined in the ConOps.</div>
+          </div>
+          <div class="lifecycle-tag drafted">Drafted</div>
         </div>
-        <div class="lifecycle-step">
+        <div class="lifecycle-step done">
           <div class="lifecycle-num">2</div>
-          <div class="lifecycle-label">Conceptual Design</div>
+          <div class="lifecycle-content">
+            <div class="lifecycle-label">Conceptual Design</div>
+            <div class="lifecycle-desc">Functional analysis complete — system architecture and key trade-offs documented.</div>
+          </div>
+          <div class="lifecycle-tag drafted">Drafted</div>
         </div>
-        <div class="lifecycle-step">
+        <div class="lifecycle-step done">
           <div class="lifecycle-num">3</div>
-          <div class="lifecycle-label">Preliminary Design</div>
+          <div class="lifecycle-content">
+            <div class="lifecycle-label">Preliminary Design</div>
+            <div class="lifecycle-desc">System architecture defined with component selections and interface specifications.</div>
+          </div>
+          <div class="lifecycle-tag drafted">Drafted</div>
         </div>
-        <div class="lifecycle-step">
+        <div class="lifecycle-step active">
           <div class="lifecycle-num">4</div>
-          <div class="lifecycle-label">Detailed Design</div>
+          <div class="lifecycle-content">
+            <div class="lifecycle-label">Detailed Design</div>
+            <div class="lifecycle-desc">Circuit schematics, wiring layouts, and mechanical drawings still to be completed.</div>
+          </div>
+          <div class="lifecycle-tag">To Do</div>
         </div>
         <div class="lifecycle-step">
           <div class="lifecycle-num">5</div>
-          <div class="lifecycle-label">Build &amp; Operations</div>
+          <div class="lifecycle-content">
+            <div class="lifecycle-label">Build &amp; Operations</div>
+            <div class="lifecycle-desc">Physical assembly, integration testing, and handover — scheduled for later in the semester.</div>
+          </div>
+          <div class="lifecycle-tag upcoming">Upcoming</div>
         </div>
       </div>
     </div>
